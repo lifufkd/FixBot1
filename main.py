@@ -39,11 +39,9 @@ def main():
         delete_msg(user_id)
         if user_input == '✅написать историю✅':
             bot.delete_message(user_id, message.id)
-            temp_user_data.temp_data(user_id)[user_id][0] = 0
             message_id = bot.send_message(message.chat.id, "Пожалуйста, напишите свою историю:").message_id
             temp_user_data.temp_data(user_id)[user_id][1] = message_id
-        elif code == 0:
-            temp_user_data.temp_data(user_id)[user_id][0] = None
+        else:
             bot.delete_message(user_id, message.id)
             if message.text:
                 bot.send_message(config.get_config()['group_id'], message.text)
@@ -60,6 +58,8 @@ def main():
                 # Отправляем видео в ваш чат
                 bot.send_video(config.get_config()['group_id'], video.file_id)
             message_id = bot.send_message(user_id, '✅история отправлена на проверку✅').message_id
+            bot.delete_message(user_id, message_id)
+            message_id = bot.send_message(message.chat.id, "Пожалуйста, напишите свою историю:").message_id
             temp_user_data.temp_data(user_id)[user_id][1] = message_id
 
     bot.polling(none_stop=True)
